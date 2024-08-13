@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id(); // unsignedBigInt by default
             $table->integer('rack');
             $table->integer('row');
-            $table->integer('column');
+//            $table->integer('column');
             $table->timestamps();
         });
     }

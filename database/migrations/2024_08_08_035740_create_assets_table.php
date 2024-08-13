@@ -13,7 +13,6 @@ return new class extends Migration
     {
         Schema::create('assets', function (Blueprint $table) {
             $table->id(); // Primary Key (id)
-
             $table->string('name'); // Asset name
             $table->integer('quantity'); // Quantity
             $table->enum('status', ['available', 'in use', 'damaged']); // Status (available, in use, damaged)

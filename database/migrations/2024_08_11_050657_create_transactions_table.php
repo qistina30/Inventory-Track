@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
             $table->foreignId('asset_id')->constrained('assets')->onDelete('cascade');
-            $table->enum('transaction_type', ['checkout', 'return',]);
+            $table->enum('transaction_type', ['checkout', 'return']);
             $table->integer('quantity');
             $table->date('transaction_date');
             $table->text('remark')->nullable();
