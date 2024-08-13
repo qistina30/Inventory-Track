@@ -11,16 +11,18 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('categories', function (Blueprint $table) {
-            $table->id(); // unsignedBigInt by default
-            $table->string('name');
-            $table->text('description')->nullable(); // Description
-            $table->timestamps();
+        Schema::table('assets', function (Blueprint $table) {
+            $table->softDeletes();//
         });
     }
 
+    /**
+     * Reverse the migrations.
+     */
     public function down(): void
     {
-        Schema::dropIfExists('categories');
+        Schema::table('assets', function (Blueprint $table) {
+            $table->dropSoftDeletes();
+        });
     }
 };

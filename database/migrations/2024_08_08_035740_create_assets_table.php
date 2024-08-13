@@ -20,10 +20,6 @@ return new class extends Migration
             $table->timestamps(); // Created and updated timestamps
         });
     }
-
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('assets');
