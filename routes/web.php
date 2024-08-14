@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\AssetController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RequestController;
+use App\Http\Controllers\TransactionController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
@@ -29,3 +31,20 @@ Route::get('/asset', [AssetController::class, 'index'])->name('asset.index');
 Route::get('/asset/{asset}/edit', [AssetController::class, 'edit'])->name('asset.edit');
 Route::put('/asset/{asset}', [AssetController::class, 'update'])->name('asset.update');
 Route::delete('/asset/{asset}', [AssetController::class, 'destroy'])->name('asset.destroy');
+
+Route::post('asset/{id}/requests', [AssetController::class, 'requestAsset'])->name('asset.requests');
+
+Route::middleware('auth')->group(function () {
+    // Route for viewing all requests (Admin)
+    Route::get('requests', [RequestController::class, 'index'])->name('requests.index');
+
+    // Routes for approving and rejecting requests (Admin)
+    Route::post('requests/{id}/approve', [RequestController::class, 'approve'])->name('requests.approve');
+    Route::post('requests/{id}/reject', [RequestController::class, 'reject'])->name('requests.reject');
+    Route::post('requests/store', [RequestController::class, 'store'])->name('requests.store');
+    // Route for viewing user's requests history
+    Route::get('requests/history', [RequestController::class, 'userHistory'])->name('requests.history');
+    Route::delete('requests/{id}', [RequestController::class, 'destroy'])->name('requests.destroy');
+});
+
+Route::resource('transactions', TransactionController::class);

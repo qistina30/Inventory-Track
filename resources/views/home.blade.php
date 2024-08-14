@@ -25,6 +25,12 @@
                             <a href="{{ route('asset.index') }}" class="btn btn-primary">
                                 {{ __('Asset') }}
                             </a>
+                            <a href="{{ route('requests.index') }}" class="btn btn-primary">
+                                {{ __('Request history') }}
+                            </a>
+                            <a href="{{ route('transactions.index') }}" class="btn btn-primary">
+                                {{ __('Transaction History') }}
+                            </a>
                     </div>
                 </div>
             </div>

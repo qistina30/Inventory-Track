@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Asset;
+use App\Models\AssetRequest;
 use App\Models\Category;
 use App\Models\Location;
 use Illuminate\Http\Request;

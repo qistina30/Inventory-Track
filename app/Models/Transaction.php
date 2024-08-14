@@ -9,8 +9,21 @@ class Transaction extends Model
 {
     use HasFactory;
 
-    protected $guarded = [];
 
+    protected $fillable = [
+        'user_id', 'asset_id', 'transaction_type', 'quantity', 'transaction_date', 'remark',
+    ];
+
+    protected $dates = [
+        'transaction_date',
+        'created_at',
+        'updated_at',
+    ];
+
+    // Ensure correct casting for 'transaction_date'
+    protected $casts = [
+        'transaction_date' => 'datetime',
+    ];
 
     public function user()
     {

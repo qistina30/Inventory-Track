@@ -11,55 +11,30 @@ class TransactionController extends Controller
      * Display a listing of the resource.
      */
     public function index()
+{
+    $transactions = Transaction::with('user', 'asset')->get();
+    return view('transactions.index', compact('transactions'));
+}
+
+    public function edit($id)
     {
-        //
+        $transaction = Transaction::findOrFail($id);
+        return view('transactions.edit', compact('transaction'));
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function update(Request $request, $id)
     {
-        //
-    }
+        $request->validate([
+//            'quantity' => 'required|integer',
+            'remark' => 'nullable|string',
+        ]);
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
-    }
+        $transaction = Transaction::findOrFail($id);
+        $transaction->update([
+//            'quantity' => $request->quantity,
+            'remark' => $request->remark,
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Transaction $transaction)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(Transaction $transaction)
-    {
-        //
+        return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
 }

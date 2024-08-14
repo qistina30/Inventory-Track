@@ -50,4 +50,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Transaction::class);
     }
+
+    public function asset_requests()
+    {
+        return $this->hasMany(AssetRequest::class);
+    }
 }
