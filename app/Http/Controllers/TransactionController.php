@@ -37,4 +37,43 @@ class TransactionController extends Controller
 
         return redirect()->route('transactions.index')->with('success', 'Transaction updated successfully.');
     }
+
+    // TransactionController.php
+
+    public function returnForm($id)
+    {
+        $transaction = Transaction::findOrFail($id);
+        return view('transactions.return', compact('transaction'));
+    }
+
+    public function processReturn(Request $request, $id)
+    {
+        $transaction = Transaction::findOrFail($id);
+
+        // Validate input
+        $request->validate([
+            'remark' => 'nullable|string|max:255',
+        ]);
+
+        // Update transaction type to "return" and save remark
+        $transaction->update([
+            'transaction_type' => 'return',
+            'remark' => $request->remark,
+            'transaction_date' => now(),
+        ]);
+
+        // Adjust asset quantity based on the remark
+        $asset = $transaction->asset;
+
+        // If remark is not "damaged", increase the asset quantity
+        if ($request->remark !== 'damaged') {
+            $asset->quantity += $transaction->quantity;
+        }
+
+        $asset->save();
+
+        return redirect()->route('transactions.index')->with('success', 'Asset returned successfully!');
+    }
+
+
 }

@@ -28,7 +28,7 @@ class RequestController extends Controller
             'transaction_type' => 'checkout',
             'quantity' => $request->quantity,
             'transaction_date' => now(),
-            'remark' => 'Approved request ID: ' . $request->id,
+
         ]);
 
         // Update asset quantity
@@ -111,5 +111,10 @@ class RequestController extends Controller
         return redirect()->route('requests.index')->with('success', 'Request deleted successfully.');
     }
 
+    public function create()
+    {
+        $assets = Asset::where('status', 'available')->get();
+        return view('requests.create', compact('assets'));
+    }
 
 }

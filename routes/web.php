@@ -45,6 +45,9 @@ Route::middleware('auth')->group(function () {
     // Route for viewing user's requests history
     Route::get('requests/history', [RequestController::class, 'userHistory'])->name('requests.history');
     Route::delete('requests/{id}', [RequestController::class, 'destroy'])->name('requests.destroy');
+    Route::get('/requests/create', [RequestController::class, 'create'])->name('requests.create');
 });
+Route::get('/transactions/{id}/return', [TransactionController::class, 'returnForm'])->name('transactions.return');
+Route::post('/transactions/{id}/return', [TransactionController::class, 'processReturn'])->name('transactions.processReturn');
 
 Route::resource('transactions', TransactionController::class);

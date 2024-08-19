@@ -35,7 +35,9 @@
                     <td>{{ $transaction->remark }}</td>
                     <td>
                         <a href="{{ route('transactions.edit', $transaction->id) }}" class="btn btn-warning">Edit</a>
-                        <!-- You can add a delete button if needed -->
+                        @if($transaction->transaction_type === 'checkout')
+                            <a href="{{ route('transactions.return', $transaction->id) }}" class="btn btn-info">Return Asset</a>
+                        @endif
                     </td>
                 </tr>
             @endforeach
@@ -43,4 +45,3 @@
         </table>
     </div>
 @endsection
-

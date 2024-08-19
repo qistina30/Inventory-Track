@@ -12,7 +12,8 @@ class AssetController extends Controller
 {
     public function index()
     {
-        $assets = Asset::with(['location', 'category'])->get();
+        // Fetch assets with their related location and category, and paginate the results to 10 per page
+        $assets = Asset::with(['location', 'category'])->paginate(10);
         return view('asset.index', compact('assets'));
     }
 
