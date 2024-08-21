@@ -17,6 +17,20 @@ class Asset extends Model
         'status',
         'description',
     ];
+
+    public static function boot()
+    {
+        parent::boot();
+
+        // Listen for the `saving` event to update status based on quantity
+        static::saving(function ($asset) {
+            if ($asset->quantity == 0) {
+                $asset->status = 'unavailable';
+            } elseif ($asset->status == 'unavailable' && $asset->quantity > 0) {
+                $asset->status = 'available'; // Or set it to another appropriate status
+            }
+        });
+    }
     public function category()
     {
         return $this->belongsTo(Category::class);

@@ -43,6 +43,7 @@
                     <option value="available">Available</option>
                     <option value="in use">In Use</option>
                     <option value="damaged">Damaged</option>
+                    <option value="unavailable">Unavailable</option>
                 </select>
             </div>
 

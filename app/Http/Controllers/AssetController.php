@@ -62,4 +62,10 @@ class AssetController extends Controller
 
         return redirect()->route('asset.index')->with('success', 'Asset updated successfully!');
     }
+
+    public function destroy(Asset $asset)
+    {
+        $asset->delete();
+        return redirect()->route('asset.index')->with('success', 'Asset deleted successfully!');
+    }
 }

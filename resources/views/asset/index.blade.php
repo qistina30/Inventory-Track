@@ -56,6 +56,8 @@
                                 <span class="badge badge-in-use">In Use</span>
                             @elseif($asset->status === 'damaged')
                                 <span class="badge badge-damage">Damage</span>
+                            @elseif($asset->status === 'unavailable')
+                                <span class="badge badge-damage">Unavailable</span>
                             @else
                                 <span class="badge badge-secondary">Unknown</span>
                             @endif
@@ -63,20 +65,29 @@
                         <td>{{ $asset->description }}</td>
                         <td>
                             <div class="btn-group">
+                                <!-- Dropdown Toggle Button -->
                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
                                 </button>
+
+                                <!-- Dropdown Menu -->
                                 <div class="dropdown-menu">
-                                    <a href="{{ route('asset.edit', $asset->id) }}" class="dropdown-item">
-                                        <i class="fas fa-edit"></i> Edit
+                                    <!-- Edit Button -->
+                                    <a href="{{ route('asset.edit', $asset->id) }}" class="dropdown-item d-flex align-items-center">
+                                        <i class="fas fa-edit mr-2" style="margin-right: 8px;"></i> Edit
                                     </a>
-                                    {{--<form action="{{ route('asset.destroy', $asset->id) }}" method="POST" class="dropdown-item">
+
+                                    <!-- Divider -->
+                                    <div class="dropdown-divider"></div>
+
+                                    <!-- Delete Button -->
+                                    <form action="{{ route('asset.destroy', $asset->id) }}" method="POST" class="dropdown-item p-0 m-0">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-danger w-100 text-left">
-                                            <i class="fas fa-trash-alt"></i> Delete
+                                        <button type="submit" class="btn w-100 text-left d-flex align-items-center text-danger" style="border: none; background: none; padding: 10px;">
+                                            <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Delete
                                         </button>
-                                    </form>--}}
+                                    </form>
                                 </div>
                             </div>
                         </td>

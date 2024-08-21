@@ -48,6 +48,7 @@
                     <option value="available" {{ $asset->status == 'available' ? 'selected' : '' }}>Available</option>
                     <option value="in use" {{ $asset->status == 'in use' ? 'selected' : '' }}>In Use</option>
                     <option value="damaged" {{ $asset->status == 'damaged' ? 'selected' : '' }}>Damaged</option>
+                    <option value="unavailable" {{ $asset->status == 'unavailable' ? 'selected' : '' }}>Unavailable</option>
                 </select>
             </div>
 
