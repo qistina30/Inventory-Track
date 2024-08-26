@@ -1,5 +1,5 @@
 @extends('layouts.app')
-
+//jjj
 @section('content')
     <div class="container">
         <h1 class="text-center mb-4" style="color: red;">Add New Category</h1>
