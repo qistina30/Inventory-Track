@@ -14,6 +14,7 @@
     <link rel="dns-prefetch" href="//fonts.bunny.net">
     <link href="https://fonts.bunny.net/css?family=Nunito" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Scripts -->
     @vite(['resources/sass/app.scss', 'resources/js/app.js'])
@@ -29,9 +30,10 @@
         body {
             background-color: white;
             color: #f5f5f5; /* Light text color */
+            font-size: 14px; /* or whatever size suits your design */
         }
         .card {
-            background-color: #23272a; /* Slightly lighter dark color for cards */
+            background-color: lightgoldenrodyellow; /* Slightly lighter dark color for cards */
         }
         .btn-primary {
             background-color: #007bff; /* Blue button color */
@@ -116,6 +118,7 @@
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('asset.index') }}">View All Assets</a></li>
                                 <li><a class="dropdown-item" href="{{ route('requests.create') }}">Request Assets</a></li>
+                                <li><a class="dropdown-item" href="{{ route('asset.create') }}" > Add New Asset</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -134,6 +137,7 @@
                             <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('category.index') }}" role="button" aria-expanded="false">Category</a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="{{ route('category.index') }}">View All Category</a></li>
+                                <li><a href="{{ route('category.create') }}" class="dropdown-item">Add New Category</a></li>
                             </ul>
                         </li>
                     </ul>

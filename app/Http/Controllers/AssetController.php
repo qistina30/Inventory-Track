@@ -13,7 +13,7 @@ class AssetController extends Controller
     public function index()
     {
         // Fetch assets with their related location and category, and paginate the results to 10 per page
-        $assets = Asset::with(['location', 'category'])->paginate(10);
+        $assets = Asset::with(['location', 'category'])->orderBy('name', 'asc')->paginate(10);
         return view('asset.index', compact('assets'));
     }
 
@@ -68,4 +68,17 @@ class AssetController extends Controller
         $asset->delete();
         return redirect()->route('asset.index')->with('success', 'Asset deleted successfully!');
     }
+
+    public function search(Request $request)
+    {
+        $query = $request->input('search');
+        $assets = Asset::where('name', 'like', '%' . $query . '%')->paginate(10);
+
+        if ($request->ajax()) {
+            return view('asset.partials.asset-table', compact('assets'))->render();
+        }
+
+        return view('asset.index', compact('assets'));
+    }
+
 }

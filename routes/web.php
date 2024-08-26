@@ -31,12 +31,15 @@ Route::get('/asset', [AssetController::class, 'index'])->name('asset.index');
 Route::get('/asset/{asset}/edit', [AssetController::class, 'edit'])->name('asset.edit');
 Route::put('/asset/{asset}', [AssetController::class, 'update'])->name('asset.update');
 Route::delete('/asset/{asset}', [AssetController::class, 'destroy'])->name('asset.destroy');
+Route::get('/asset/search', [AssetController::class, 'search'])->name('asset.search');
 
 Route::post('asset/{id}/requests', [AssetController::class, 'requestAsset'])->name('asset.requests');
 
 Route::middleware('auth')->group(function () {
     // Route for viewing all requests (Admin)
     Route::get('requests', [RequestController::class, 'index'])->name('requests.index');
+    Route::get('/requests/{id}/edit', [RequestController::class, 'edit'])->name('requests.edit');
+    Route::put('/requests/{id}', [RequestController::class, 'update'])->name('requests.update');
 
     // Routes for approving and rejecting requests (Admin)
     Route::post('requests/{id}/approve', [RequestController::class, 'approve'])->name('requests.approve');

@@ -12,7 +12,7 @@ class TransactionController extends Controller
      */
     public function index()
 {
-    $transactions = Transaction::with('user', 'asset')->get();
+    $transactions = Transaction::with('user', 'asset')->paginate(10);;
     return view('transactions.index', compact('transactions'));
 }
 

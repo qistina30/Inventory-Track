@@ -10,91 +10,23 @@
             </div>
         @endif
 
-        <!-- Buttons -->
+        <!-- Search Form -->
         <div class="d-flex justify-content-between mb-3">
-            {{--<a href="{{ route('requests.create') }}" class="btn btn-primary">
-                <i class="fas fa-hand-holding"></i> Request Asset
-            </a>--}}
-            <a href="{{ route('asset.create') }}" class="btn btn-primary">
-                <i class="fas fa-plus"></i> Add New Asset
-            </a>
+            <!-- Live Search Input -->
+            <div class="input-group">
+                <input type="text" id="search" class="form-control" placeholder="Search by Asset Name">
+                <div class="input-group-append">
+                    <button class="btn btn-primary search-btn">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+                </div>
+            </div>
+
         </div>
 
         <!-- Asset Table -->
-        <div class="table-responsive">
-            <table class="table table-striped table-hover align-middle text-center">
-                <thead class="table-dark">
-                <tr>
-                    <th>No.</th>
-                    <th>Location</th>
-                    <th>Category</th>
-                    <th>Name</th>
-                    <th>Quantity</th>
-                    <th>Status</th>
-                    <th>Description</th>
-                    <th>Actions</th>
-                </tr>
-                </thead>
-                <tbody>
-                @php
-                    $page = $assets->currentPage(); // Current page number
-                    $perPage = $assets->perPage(); // Items per page
-                    $start = ($page - 1) * $perPage + 1; // Calculate starting number
-                @endphp
-
-                @foreach($assets as $index => $asset)
-                    <tr>
-                        <td>{{ $start + $index }}</td>
-                        <td>{{ $asset->location ? $asset->location->rack . '.' . $asset->location->row : 'N/A' }}</td>
-                        <td>{{ $asset->category ? $asset->category->name : 'N/A' }}</td>
-                        <td>{{ $asset->name }}</td>
-                        <td>{{ $asset->quantity }}</td>
-                        <td>
-                            @if($asset->status === 'available')
-                                <span class="badge badge-available">Available</span>
-                            @elseif($asset->status === 'in use')
-                                <span class="badge badge-in-use">In Use</span>
-                            @elseif($asset->status === 'damaged')
-                                <span class="badge badge-damage">Damage</span>
-                            @elseif($asset->status === 'unavailable')
-                                <span class="badge badge-damage">Unavailable</span>
-                            @else
-                                <span class="badge badge-secondary">Unknown</span>
-                            @endif
-                        </td>
-                        <td>{{ $asset->description }}</td>
-                        <td>
-                            <div class="btn-group">
-                                <!-- Dropdown Toggle Button -->
-                                <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    Actions
-                                </button>
-
-                                <!-- Dropdown Menu -->
-                                <div class="dropdown-menu">
-                                    <!-- Edit Button -->
-                                    <a href="{{ route('asset.edit', $asset->id) }}" class="dropdown-item d-flex align-items-center">
-                                        <i class="fas fa-edit mr-2" style="margin-right: 8px;"></i> Edit
-                                    </a>
-
-                                    <!-- Divider -->
-                                    <div class="dropdown-divider"></div>
-
-                                    <!-- Delete Button -->
-                                    <form action="{{ route('asset.destroy', $asset->id) }}" method="POST" class="dropdown-item p-0 m-0">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" class="btn w-100 text-left d-flex align-items-center text-danger" style="border: none; background: none; padding: 10px;">
-                                            <i class="fas fa-trash-alt" style="margin-right: 8px;"></i> Delete
-                                        </button>
-                                    </form>
-                                </div>
-                            </div>
-                        </td>
-                    </tr>
-                @endforeach
-                </tbody>
-            </table>
+        <div class="table-responsive" id="asset-table">
+            @include('asset.partials.asset-table', ['assets' => $assets])
         </div>
 
         <!-- Pagination -->
@@ -104,4 +36,53 @@
             </div>
         </div>
     </div>
+
+    <!-- JavaScript for Live Search -->
+    <script>
+        document.getElementById('search').addEventListener('input', function() {
+            let query = this.value;
+            let url = "{{ route('asset.search') }}";
+
+            fetch(`${url}?search=${query}`, {
+                headers: {
+                    'X-Requested-With': 'XMLHttpRequest'
+                }
+            })
+                .then(response => response.text())
+                .then(data => {
+                    document.getElementById('asset-table').innerHTML = data;
+                });
+        });
+    </script>
+
+    <style>
+        /* Enhanced Search Button and Input Styles */
+        .input-group .form-control {
+            height: calc(2.25rem + 2px); /* Adjust input height to match button */
+        }
+
+        .search-btn {
+            background-color: blue; /* Primary color */
+            border: 2px solid #ff4500; /* Darker border color */
+            color: white; /* Text color */
+            transition: background-color 0.3s ease, border-color 0.3s ease; /* Smooth transition */
+            height: calc(2.25rem + 2px); /* Match the button height with the input */
+        }
+
+        .search-btn:hover {
+            background-color: red; /* Darker background on hover */
+            border-color: red; /* Lighter border on hover */
+        }
+
+        .search-btn:disabled {
+            background-color: #ccc; /* Disabled state color */
+            border-color: #bbb; /* Disabled border color */
+            cursor: not-allowed; /* Disabled cursor */
+        }
+
+        .input-group .form-control:focus {
+            border-color: red; /* Focus border color */
+            box-shadow: 0 0 5px rgba(255, 69, 0, 0.5); /* Focus box shadow */
+        }
+    </style>
 @endsection

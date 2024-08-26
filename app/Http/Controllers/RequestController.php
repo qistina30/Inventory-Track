@@ -12,7 +12,7 @@ class RequestController extends Controller
     public function index()
     {
         // Fetch all requests with associated users and assets
-        $requests = AssetRequest::with(['user', 'asset'])->get();
+        $requests = AssetRequest::with(['user', 'asset'])->paginate(10);
 
         return view('requests.index', compact('requests'));
     }
@@ -116,5 +116,38 @@ class RequestController extends Controller
         $assets = Asset::where('status', 'available')->get();
         return view('requests.create', compact('assets'));
     }
+
+    public function edit($id)
+    {
+        $request = AssetRequest::findOrFail($id);
+        $assets = Asset::where('status', 'available')->orderBy('name')->get();
+
+        return view('requests.edit', compact('request', 'assets'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'asset_id' => 'required|exists:assets,id',
+            'quantity' => 'required|integer|min:1',
+        ]);
+
+        $assetRequest = AssetRequest::findOrFail($id);
+
+        // Check if the new asset is available
+        $asset = Asset::findOrFail($request->input('asset_id'));
+        if ($asset->status !== 'available') {
+            return redirect()->back()->with('error', 'This asset is not available for request.');
+        }
+
+        $assetRequest->update([
+            'asset_id' => $request->input('asset_id'),
+            'quantity' => $request->input('quantity'),
+        ]);
+
+        return redirect()->route('asset.index')->with('success', 'Asset request updated successfully.');
+    }
+
+
 
 }
