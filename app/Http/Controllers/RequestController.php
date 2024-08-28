@@ -11,11 +11,15 @@ class RequestController extends Controller
 {
     public function index()
     {
-        // Fetch all requests with associated users and assets
-        $requests = AssetRequest::with(['user', 'asset'])->paginate(10);
+        // Fetch all requests with associated users and assets, ordering by status so that 'pending' is first
+        $requests = AssetRequest::with(['user', 'asset'])
+            ->orderByRaw("FIELD(status, 'pending') DESC")
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);  // Paginate the results with 10 per page
 
         return view('requests.index', compact('requests'));
     }
+
 
     public function approve($id)
     {

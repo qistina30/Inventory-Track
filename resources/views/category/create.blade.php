@@ -41,7 +41,7 @@
                     <div class="row">
                         <div class="col-md-12 text-md-end">
                             <button class="btn btn-primary btn-lg rounded-pill me-2" type="submit"><i class="fa fa-plus"></i> Add Category</button>
-                            <button class="btn btn-secondary btn-lg rounded-pill" type="reset"><i class="fas fa-undo"></i> Reset</button>
+                            4
                         </div>
                     </div>
                 </form>

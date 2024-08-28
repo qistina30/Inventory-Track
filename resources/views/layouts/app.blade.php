@@ -73,6 +73,7 @@
             border-color: #007bff; /* Blue color for toggler */
         }
 
+
         .badge-available {
             background-color: #28a745; /* Green */
             color: white;
@@ -92,6 +93,17 @@
             background-color: #6c757d; /* Grey */
             color: white;
         }
+
+        /* Custom close button */
+        .btn-close {
+            color: #000; /* Customize the color if needed */
+            opacity: 0.5;
+        }
+
+        .btn-close:hover {
+            opacity: 1;
+        }
+
 
     </style>
 </head>

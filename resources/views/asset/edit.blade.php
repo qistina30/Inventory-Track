@@ -14,7 +14,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="location_id" style="color: #007bff;"><i class="fas fa-map-marker-alt"></i> Location</label>
-                            <select id="location_id" name="location_id" class="form-control" required>
+                            <select id="location_id" name="location_id" class="form-select form-control" required>
                                 <option value=" ">Select an option</option>
                                 @foreach($locations as $location)
                                     <option value="{{ $location->id }}" {{ $location->id == $asset->location_id ? 'selected' : '' }}>
@@ -26,7 +26,7 @@
 
                         <div class="col-md-6 mb-3">
                             <label for="category_id" style="color: #007bff;"><i class="fas fa-list-alt"></i> Category</label>
-                            <select id="category_id" name="category_id" class="form-control" required>
+                            <select id="category_id" name="category_id" class="form-select form-control" required>
                                 <option value=" ">Select an option</option>
                                 @foreach($categories as $category)
                                     <option value="{{ $category->id }}" {{ $category->id == $asset->category_id ? 'selected' : '' }}>
@@ -54,7 +54,7 @@
                     <div class="row">
                         <div class="col-md-6 mb-3">
                             <label for="status" style="color: #007bff;"><i class="fas fa-info-circle"></i> Status</label>
-                            <select id="status" name="status" class="form-control" required>
+                            <select id="status" name="status" class="form-select form-control" required>
                                 <option value="available" {{ $asset->status == 'available' ? 'selected' : '' }}>Available</option>
                                 <option value="in use" {{ $asset->status == 'in use' ? 'selected' : '' }}>In Use</option>
                                 <option value="damaged" {{ $asset->status == 'damaged' ? 'selected' : '' }}>Damaged</option>
