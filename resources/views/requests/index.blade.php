@@ -16,19 +16,25 @@
                 <thead class="table-dark">
                 <tr>
                     <th>No.</th>
-                    <th>User</th>
+                    @if(auth()->user()->isAdmin())
+                        <th>Staff Name</th>
+                    @endif
                     <th>Asset</th>
                     <th>Quantity</th>
                     <th>Status</th>
                     <th>Requested At</th>
+                    @if(auth()->user()->isAdmin())
                     <th>Actions</th>
+                    @endif
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($requests as $index => $request)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $request->user->name }}</td>
+                        @if(auth()->user()->isAdmin())
+                            <td>{{ $request->user->name }}</td>
+                        @endif
                         <td>{{ $request->asset->name }}</td>
                         <td>{{ $request->quantity }}</td>
                         <td>
@@ -43,8 +49,11 @@
                             @endif
                         </td>
                         <td>{{ $request->created_at->format('d/m/Y H:i') }}</td>
+                        @if(auth()->user()->isAdmin())
+
                         <td>
                             <div class="btn-group">
+
                                 <!-- Dropdown Toggle Button -->
                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
@@ -71,7 +80,7 @@
 
                                         <!-- Divider -->
                                         <div class="dropdown-divider"></div>
-
+                                    @endif
                                         <!-- Edit Button -->
                                         <a href="{{ route('requests.edit', $request->id) }}" class="dropdown-item d-flex align-items-center">
                                             <i class="fas fa-edit mr-2"></i> Edit
@@ -79,7 +88,7 @@
 
                                         <!-- Divider -->
                                         <div class="dropdown-divider"></div>
-                                    @endif
+
 
                                     <!-- Delete Button -->
                                     <form action="{{ route('requests.destroy', $request->id) }}" method="POST" class="dropdown-item p-0 m-0">
@@ -90,8 +99,8 @@
                                         </button>
                                     </form>
                                 </div>
+                                @endif
                             </div>
-
                         </td>
                     </tr>
                 @endforeach

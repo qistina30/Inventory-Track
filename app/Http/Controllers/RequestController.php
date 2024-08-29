@@ -11,12 +11,20 @@ class RequestController extends Controller
 {
     public function index()
     {
-        // Fetch all requests with associated users and assets, ordering by status so that 'pending' is first
-        $requests = AssetRequest::with(['user', 'asset'])
-            ->orderByRaw("FIELD(status, 'pending') DESC")
-            ->orderBy('created_at', 'desc')
-            ->paginate(10);  // Paginate the results with 10 per page
-
+        if (auth()->user()->isAdmin()) {
+            // Fetch all requests with associated users and assets, ordering by status so that 'pending' is first
+            $requests = AssetRequest::with(['user', 'asset'])
+                ->orderByRaw("FIELD(status, 'pending') DESC")
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);  // Paginate the results with 10 per page
+        } else {
+            // Filter requests by the logged-in staff member
+            $requests = AssetRequest::where('user_id', auth()->id())
+                ->with(['asset'])
+                ->orderByRaw("FIELD(status, 'pending') DESC")
+                ->orderBy('created_at', 'desc')
+                ->paginate(10);
+        }
         return view('requests.index', compact('requests'));
     }
 
@@ -90,13 +98,19 @@ class RequestController extends Controller
             'quantity' => 'required|integer|min:1',
         ]);
 
-        $asset = Asset::findOrFail($request->input('asset_id'));
+        $asset = Asset::find($request->input('asset_id'));
 
-        // Check if the asset is available before processing the request
-        if ($asset->status !== 'available') {
-            return redirect()->back()->with('error', 'This asset is not available for request.');
+        // Check if the asset exists
+        if (!$asset) {
+            return redirect()->back()->with('error', 'Asset not found.');
         }
 
+        // Check if the asset is available and quantity requested does not exceed available quantity
+        if ($asset->status !== 'available' || $request->input('quantity') > $asset->quantity) {
+            return redirect()->back()->with('error', 'This asset is not available in the requested quantity.');
+        }
+
+        // Create the asset request
         AssetRequest::create([
             'user_id' => auth()->id(),
             'asset_id' => $asset->id,
@@ -106,6 +120,7 @@ class RequestController extends Controller
 
         return redirect()->route('asset.index')->with('success', 'Asset request submitted successfully.');
     }
+
 
     public function destroy($id)
     {

@@ -23,21 +23,17 @@ class User extends Authenticatable
         'userCategory',
     ];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
+
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * Get the attributes that should be cast.
-     *
-     * @return array<string, string>
-     */
+    public function isAdmin()
+    {
+
+        return $this->userCategory === 'admin';
+    }
     protected function casts(): array
     {
         return [

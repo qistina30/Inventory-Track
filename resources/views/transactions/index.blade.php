@@ -16,7 +16,9 @@
                 <thead class="table-dark">
                 <tr>
                     <th>No.</th>
-                    <th>User</th>
+                    @if(auth()->user()->isAdmin())
+                        <th>Staff Name</th>
+                    @endif
                     <th>Asset</th>
                     <th>Quantity</th>
                     <th>Transaction Type</th>
@@ -29,7 +31,9 @@
                 @foreach($transactions as $index => $transaction)
                     <tr>
                         <td>{{ $loop->iteration }}</td>
-                        <td>{{ $transaction->user->name }}</td>
+                        @if(auth()->user()->isAdmin())
+                            <td>{{ $transaction->user->name }}</td>
+                        @endif
                         <td>{{ $transaction->asset->name }}</td>
                         <td>{{ $transaction->quantity }}</td>
                         <td>
@@ -45,23 +49,15 @@
                         <td>{{ $transaction->remark }}</td>
                         <td>
                             <div class="btn-group">
-                                <!-- Dropdown Toggle Button -->
                                 <button type="button" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     Actions
                                 </button>
-
-                                <!-- Dropdown Menu -->
                                 <div class="dropdown-menu">
-                                    <!-- Edit Button -->
                                     <a href="{{ route('transactions.edit', $transaction->id) }}" class="dropdown-item d-flex align-items-center">
                                         <i class="fas fa-edit mr-2"></i> Edit
                                     </a>
-
                                     @if($transaction->transaction_type === 'checkout')
-                                        <!-- Divider -->
                                         <div class="dropdown-divider"></div>
-
-                                        <!-- Return Asset Button -->
                                         <a href="{{ route('transactions.return', $transaction->id) }}" class="dropdown-item d-flex align-items-center">
                                             <i class="fas fa-undo mr-2"></i> Return Asset
                                         </a>

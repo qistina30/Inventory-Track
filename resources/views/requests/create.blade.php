@@ -1,9 +1,15 @@
 @extends('layouts.app')
 
 @section('content')
-    <div class="container">
-        <h1 class="text-center mb-4" style="color: red;">Request Asset</h1>
 
+    <div class="container">
+
+        <h1 class="text-center mb-4" style="color: red;">Request Asset</h1>
+        @if(session('error'))
+            <div class="alert alert-danger">
+                {{ session('error') }}
+            </div>
+        @endif
         <div class="card shadow-lg">
             <div class="card-body">
                 <form action="{{ route('requests.store') }}" method="POST">

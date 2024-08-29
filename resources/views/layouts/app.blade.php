@@ -125,33 +125,51 @@
                         <li class="nav-item" role="presentation">
                             <a class="nav-link active" aria-current="page" href="{{ route('home') }}">Home</a>
                         </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('asset.index') }}" role="button" aria-expanded="false">Assets</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('asset.index') }}">View All Assets</a></li>
-                                <li><a class="dropdown-item" href="{{ route('requests.create') }}">Request Assets</a></li>
-                                <li><a class="dropdown-item" href="{{ route('asset.create') }}" > Add New Asset</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('transactions.index') }}" role="button" aria-expanded="false">Transaction</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('transactions.index') }}">View History</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('requests.index') }}" role="button" aria-expanded="false">Request</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('requests.index') }}">View All Requests</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('category.index') }}" role="button" aria-expanded="false">Category</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="{{ route('category.index') }}">View All Category</a></li>
-                                <li><a href="{{ route('category.create') }}" class="dropdown-item">Add New Category</a></li>
-                            </ul>
-                        </li>
+                        @if(auth()->user()->isAdmin())
+                            <!-- Admin Navigation -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('asset.index') }}" role="button" aria-expanded="false">Assets</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('asset.index') }}">View All Assets</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('requests.create') }}">Request Assets</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('asset.create') }}">Add New Asset</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('transactions.index') }}" role="button" aria-expanded="false">Transaction</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('transactions.index') }}">View History</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('requests.index') }}" role="button" aria-expanded="false">Request</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('requests.index') }}">View All Requests</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('category.index') }}" role="button" aria-expanded="false">Category</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('category.index') }}">View All Categories</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('category.create') }}">Add New Category</a></li>
+                                </ul>
+                            </li>
+                        @else
+                            <!-- Staff Navigation -->
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('asset.index') }}" role="button" aria-expanded="false">Assets</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('asset.index') }}">View All Assets</a></li>
+                                    <li><a class="dropdown-item" href="{{ route('requests.create') }}">Request Assets</a></li>
+                                </ul>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="{{ route('requests.index') }}" role="button" aria-expanded="false">Request</a>
+                                <ul class="dropdown-menu">
+                                    <li><a class="dropdown-item" href="{{ route('requests.index') }}">View All Requests</a></li>
+                                </ul>
+                            </li>
+                        @endif
                     </ul>
 
                     <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">

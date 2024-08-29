@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Asset;
 use App\Models\AssetRequest;
 use App\Models\Category;
+use App\Models\Transaction;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -44,8 +45,22 @@ class HomeController extends Controller
         // Get the low stock assets
         $lowStockAssets = Asset::where('quantity', '<', 3)->get();
 
+        // Check if the logged-in user is an admin
+        if (auth()->user()->isAdmin()) {
+            // Admin can see all transactions
+            $recentTransactions = Transaction::with(['user', 'asset'])
+                ->orderBy('transaction_date', 'desc')
+                ->paginate(3); // Limit to 3 for display on homepage
+        } else {
+            // Non-admin users can only see their own transactions
+            $recentTransactions = Transaction::with(['asset'])
+                ->where('user_id', auth()->id())
+                ->orderBy('transaction_date', 'desc')
+                ->paginate(3); // Limit to 3 for display on homepage
+        }
+
         return view('home', compact('totalAssets', 'availableAssets', 'unavailableAssets',
-            'damagedAssets', 'categoryNames', 'assetCounts', 'pendingRequests', 'lowStockAssets'));
+            'damagedAssets', 'categoryNames', 'assetCounts', 'pendingRequests', 'lowStockAssets','recentTransactions'));
     }
 
 

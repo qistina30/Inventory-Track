@@ -11,10 +11,21 @@ class TransactionController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-{
-    $transactions = Transaction::with('user', 'asset')->paginate(10);;
-    return view('transactions.index', compact('transactions'));
-}
+    {
+        // Check if the logged-in user is an admin
+        if (auth()->user()->isAdmin()) {
+            // Admin can see all transactions
+            $transactions = Transaction::with(['user', 'asset'])->paginate(10);
+        } else {
+            // Non-admin users can only see their own transactions
+            $transactions = Transaction::with(['asset'])
+                ->where('user_id', auth()->id())
+                ->paginate(10);
+        }
+
+        return view('transactions.index', compact('transactions'));
+    }
+
 
     public function edit($id)
     {

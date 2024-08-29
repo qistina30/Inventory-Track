@@ -6,7 +6,8 @@
             <div class="col-md-8">
                 <div class="text-center mb-4">
                     <img src="{{ asset('images/energyLogo.png') }}" alt="Logo" style="height: 100px;">
-                    <h1 class="mt-3" style="color: #d9534f;">ITAMS</h1> <!-- System name -->
+                    <h1 class="mt-3" style="color: #d9534f;">ITAMS</h1>
+                    <h3 class="mt-3" style="color: #d9534f;">IT Asset Management System</h3><!-- System name -->
                 </div>
                 <div class="card" style="border-color: #007bff;">
                     <div class="card-header text-center" style="background-color: #007bff; color: white;">{{ __('Login') }}</div>
